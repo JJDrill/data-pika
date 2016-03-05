@@ -1,0 +1,24 @@
+{
+  "name": "data-nexus",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JJDrill/data-nexus.git"
+  },
+  "author": "J. Drill",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JJDrill/data-nexus/issues"
+  },
+  "homepage": "https://github.com/JJDrill/data-nexus#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "socket.io": "^1.4.5",
+    "unirest": "^0.4.2"
+  }
+}
