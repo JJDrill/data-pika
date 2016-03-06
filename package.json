@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/JJDrill/data-nexus#readme",
   "dependencies": {
+    "body-parser": "^1.15.0",
     "express": "^4.13.4",
+    "knex": "^0.10.0",
+    "pg": "^4.5.1",
     "socket.io": "^1.4.5",
     "unirest": "^0.4.2"
   }
