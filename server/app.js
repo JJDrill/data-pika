@@ -5,6 +5,8 @@ var unirest = require('unirest')
 // var db = require('monk')('localhost/realState')
 var bodyParser = require('body-parser');
 var projects = require('./routes/projects');
+var groups = require('./routes/groups');
+var data_stores = require('./routes/data_stores');
 
 var app = Express()
 var server = http.Server(app)
@@ -14,6 +16,8 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(Express.static("./client"))
 app.use('/api/projects', projects);
+app.use('/api/groups', groups);
+app.use('/api/stores', data_stores);
 
 // app.get('/api/projects', function (request, response) {
   // unirest.get('https://still-journey-81768.herokuapp.com/')

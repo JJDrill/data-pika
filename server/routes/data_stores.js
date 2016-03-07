@@ -2,17 +2,19 @@ var express = require('express');
 var router = express.Router();
 // var passport = require('passport');
 var knex = require('../db/knex');
-var db_Groups = require('../db/tbl_project_groups');
+var db_Data_Stores = require('../db/tbl_data_stores');
 
 router.post('/', function(req, res){
-  db_Groups.Add_Group(req.body.project_name, req.body.group_name)
+  db_Data_Stores.Add_Data_Store(req.body.project_group_id,
+                                req.body.store_type,
+                                req.body.data_store_name)
     .then(function(result){
     res.send(result);
   })
 })
 
 router.delete('/:id', function(req, res){
-  db_Groups.Delete_Group(req.params.id).then(function(result){
+  db_Data_Stores.Delete_Data_Store(req.params.id).then(function(result){
     res.sendStatus(result);
   })
 })
