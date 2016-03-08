@@ -11,6 +11,18 @@ router.post('/', function(req, res){
   })
 })
 
+router.get('/', function(req, res){
+  db_Groups.Get_Groups().then(function(result){
+    res.send(result);
+  })
+})
+
+router.get('/:id', function(req, res){
+  db_Groups.Get_Groups_For_Project(req.params.id).then(function(result){
+    res.send(result);
+  })
+})
+
 router.delete('/:id', function(req, res){
   db_Groups.Delete_Group(req.params.id).then(function(result){
     res.sendStatus(result);

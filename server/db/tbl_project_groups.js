@@ -13,6 +13,15 @@ module.exports = {
     })
   },
 
+  Get_Groups: function(){
+    return Project_Groups()
+  },
+
+  Get_Groups_For_Project: function(project_name){
+    return  Project_Groups()
+            .where('Project_Name', project_name)
+  },
+
   Delete_Group: function(group_id){
     return  Project_Groups()
             .where('id', group_id)
