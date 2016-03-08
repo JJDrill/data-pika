@@ -20,14 +20,8 @@ function ConfigureController($scope, ConfigureService) {
   // console.log("Controller: ConfigureController")
   $("[name='my-checkbox']").bootstrapSwitch();
 
-  ConfigureService.getProjectGroupList().then(function(results){
-    console.log(results);
+  ConfigureService.Get_Projects().then(function(results){
     $scope.projects = results;
-  })
-
-  ConfigureService.getProjectGroups().then(function(results){
-    console.log(results);
-    $scope.groups = results;
   })
 }
 

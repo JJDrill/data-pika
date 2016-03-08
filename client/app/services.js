@@ -25,14 +25,10 @@ function ConfigureService($http) {
   // console.log("Service: ConfigureService")
 
   return {
-    get_Projects: function(){
+    Get_Projects: function(){
       return $http.get('/api/projects').then(function(projects){
-        return projects;
+        return projects.data;
       })
-    },
-    Get_Project_Groups: function(project_name){
-      return $http.get('/api/groups/' + project_name).then(function(groups){
-        return groups;
     }
   }
 }
