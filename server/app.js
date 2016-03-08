@@ -2,10 +2,10 @@ var Express = require("express")
 var Socket = require("socket.io")
 var http = require("http")
 var unirest = require('unirest')
-// var db = require('monk')('localhost/realState')
 var bodyParser = require('body-parser');
 var projects = require('./routes/projects');
 var data_stores = require('./routes/data_stores');
+var queues = require('./routes/queues');
 
 var app = Express()
 var server = http.Server(app)
@@ -16,20 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(Express.static("./client"))
 app.use('/api/projects', projects);
 app.use('/api/stores', data_stores);
-
-// app.get('/api/projects', function (request, response) {
-  // unirest.get('https://still-journey-81768.herokuapp.com/')
-  //   .end(function (data) {
-  //     Promise.all(
-  //       data.body.map(function (house) {
-  //         return db.get('houses').insert(house)
-  //       })
-  //     ).then(function (result) {
-  //       response.json(data.body)
-  //     })
-  //   })
-  // response.send("Test")
-// })
+app.use('/api/queues', queues);
 
 // io.on("connection", function (socket) {
 //   setInterval(function () {

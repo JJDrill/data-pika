@@ -14,6 +14,11 @@ module.exports = {
     })
   },
 
+  Get_List: function(store_type){
+    return  Data_Stores()
+            .where('Type_ID', store_type)
+  },
+
   Delete_Data_Store: function(store_id){
     return  Data_Stores()
             .where('id', store_id)

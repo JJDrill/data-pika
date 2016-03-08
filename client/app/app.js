@@ -1,6 +1,5 @@
 angular.module('DataNexus', ['ui.router'])
   .config(function($stateProvider, $urlRouterProvider){
-    console.log("Hello from Angular")
 
     $urlRouterProvider.otherwise('/');
 
@@ -11,7 +10,17 @@ angular.module('DataNexus', ['ui.router'])
     })
 
     $stateProvider.state('configure', {
-      templateUrl: 'templates/configure.html',
+      views: {
+          "": {
+            templateUrl: 'templates/configure.html',
+            controller: 'ConfigureController',
+            // url: '/configure'
+          },
+          "chart": {
+            template: "<h1>TEST!!!!</h1><chart_thing/>"
+          }
+        },
+      // templateUrl: 'templates/configure.html',
       controller: 'ConfigureController',
       url: '/configure'
     })

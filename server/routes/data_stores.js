@@ -13,6 +13,12 @@ router.post('/', function(req, res){
   })
 })
 
+router.get('/:type', function(req, res){
+  db_Data_Stores.Get_List(req.params.type).then(function(result){
+    res.send(result);
+  })
+})
+
 router.delete('/:id', function(req, res){
   db_Data_Stores.Delete_Data_Store(req.params.id).then(function(result){
     res.sendStatus(result);

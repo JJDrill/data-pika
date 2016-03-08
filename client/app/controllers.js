@@ -22,6 +22,7 @@ function ConfigureController($scope, ConfigureService) {
 
   ConfigureService.Get_Projects().then(function(results){
     $scope.projects = results;
+    console.log($scope);
   })
 }
 
