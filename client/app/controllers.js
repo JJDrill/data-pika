@@ -7,7 +7,7 @@ angular.module('DataNexus')
 LandingController.$inject = ['$scope', 'LandingService'];
 
 function LandingController($scope, LandingService) {
-  console.log("Controller: LandingController")
+  // console.log("Controller: LandingController")
   // RealEstateService.getHomes()
   //   .then(function(homes){
   //     $scope.homes = homes;
@@ -17,18 +17,24 @@ function LandingController($scope, LandingService) {
 ConfigureController.$inject = ['$scope', 'ConfigureService'];
 
 function ConfigureController($scope, ConfigureService) {
-  console.log("Controller: ConfigureController")
+  // console.log("Controller: ConfigureController")
   $("[name='my-checkbox']").bootstrapSwitch();
-  // RealEstateService.getHomes()
-  //   .then(function(homes){
-  //     $scope.homes = homes;
-  //   });
+
+  ConfigureService.getProjectGroupList().then(function(results){
+    console.log(results);
+    $scope.projects = results;
+  })
+
+  ConfigureService.getProjectGroups().then(function(results){
+    console.log(results);
+    $scope.groups = results;
+  })
 }
 
 SecurityController.$inject = ['$scope', 'SecurityService'];
 
 function SecurityController($scope, SecurityService) {
-  console.log("Controller: SecurityController")
+  // console.log("Controller: SecurityController")
   // RealEstateService.getHomes()
   //   .then(function(homes){
   //     $scope.homes = homes;

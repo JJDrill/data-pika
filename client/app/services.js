@@ -7,7 +7,7 @@ angular.module('DataNexus')
 LandingService.$inject = ['$http']
 
 function LandingService($http) {
-  console.log("Service: LandingService")
+  // console.log("Service: LandingService")
 
   return {
     // getHomes: function() {
@@ -22,20 +22,30 @@ function LandingService($http) {
 }
 
 function ConfigureService($http) {
-  console.log("Service: ConfigureService")
+  // console.log("Service: ConfigureService")
 
   return {
+    get_Projects: function(){
+      return $http.get('/api/projects').then(function(projects){
+        return projects;
+      })
+    },
+    Get_Project_Groups: function(project_name){
+      return $http.get('/api/groups/' + project_name).then(function(groups){
+        return groups;
+    }
   }
 }
 
 function SecurityService($http) {
-  console.log("Service: SecurityService")
+  // console.log("Service: SecurityService")
 
   return {
   }
 }
+
 function MonitorService($http) {
-  console.log("Service: MonitorService")
+  // console.log("Service: MonitorService")
 
   return {
   }
