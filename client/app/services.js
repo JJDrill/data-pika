@@ -2,7 +2,8 @@ angular.module('DataNexus')
   .factory('LandingService', LandingService)
   .factory('ConfigureService', ConfigureService)
   .factory('SecurityService', SecurityService)
-  .factory('MonitorService', MonitorService);
+  .factory('MonitorService', MonitorService)
+  .factory('MetricService', MetricService);;
 
 LandingService.$inject = ['$http']
 
@@ -44,5 +45,24 @@ function MonitorService($http) {
   // console.log("Service: MonitorService")
 
   return {
+  }
+}
+
+MetricService.$inject = ['$stateParams']
+
+function MetricService ($stateParams) {
+  // var socket = io()
+  var socket = io('/Project_2');
+  // console.log($stateParams.id);
+  socket.on('metrics', function (data) {
+    console.log(data);
+    console.log('disconnecting...');
+    socket.disconnect();
+    // socket.io.close();
+  })
+  return {
+    on: function (callback) {
+      // callbacks.push(callback)
+    }
   }
 }

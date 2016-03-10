@@ -36,12 +36,15 @@ function SecurityController($scope, SecurityService) {
   //   });
 }
 
-MonitorController.$inject = ['$scope', 'MonitorService'];
+MonitorController.$inject = ['$scope', 'MonitorService', '$stateParams', 'MetricService'];
 
-function MonitorController($scope, MonitorService) {
+function MonitorController($scope, MonitorService, $stateParams, MetricService) {
   console.log("Controller: MonitorController")
-  // RealEstateService.getHomes()
-  //   .then(function(homes){
-  //     $scope.homes = homes;
-  //   });
+    MetricService.on(function (data) {
+      console.log(data)
+      // $scope.metrics.push(data)
+      // $scope.average = data.average
+      // $scope.$apply()
+    })
+  // }
 }
