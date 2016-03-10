@@ -4,47 +4,35 @@ angular.module('DataNexus')
   .controller('SecurityController', SecurityController)
   .controller('MonitorController', MonitorController);
 
-LandingController.$inject = ['$scope', 'LandingService'];
-
-function LandingController($scope, LandingService) {
-  // console.log("Controller: LandingController")
-  // RealEstateService.getHomes()
-  //   .then(function(homes){
-  //     $scope.homes = homes;
-  //   });
+LandingController.$inject = ['$scope'];
+function LandingController($scope) {
 }
 
-ConfigureController.$inject = ['$scope', 'ConfigureService'];
-
-function ConfigureController($scope, ConfigureService) {
-  // console.log("Controller: ConfigureController")
+ConfigureController.$inject = ['$scope', 'ProjectServices'];
+function ConfigureController($scope, ProjectServices) {
   $("[name='my-checkbox']").bootstrapSwitch();
 
-  ConfigureService.Get_Projects().then(function(results){
+  ProjectServices.Get_Projects().then(function(results){
     $scope.projects = results;
     console.log($scope);
   })
 }
 
-SecurityController.$inject = ['$scope', 'SecurityService'];
-
-function SecurityController($scope, SecurityService) {
-  // console.log("Controller: SecurityController")
-  // RealEstateService.getHomes()
-  //   .then(function(homes){
-  //     $scope.homes = homes;
-  //   });
+SecurityController.$inject = ['$scope'];
+function SecurityController($scope) {
 }
 
-MonitorController.$inject = ['$scope', 'MonitorService', '$stateParams', 'MetricService'];
+MonitorController.$inject = [ '$scope', '$stateParams', 'MetricService', 'ProjectServices'];
+function MonitorController($scope, $stateParams, MetricService, ProjectServices) {
+  MetricService.on(function (data) {
+    console.log(data)
+    // $scope.metrics.push(data)
+    // $scope.average = data.average
+    // $scope.$apply()
+  })
 
-function MonitorController($scope, MonitorService, $stateParams, MetricService) {
-  console.log("Controller: MonitorController")
-    MetricService.on(function (data) {
-      console.log(data)
-      // $scope.metrics.push(data)
-      // $scope.average = data.average
-      // $scope.$apply()
-    })
-  // }
+  ProjectServices.Get_Projects().then(function(results){
+    $scope.projects = results;
+    console.log($scope);
+  })
 }

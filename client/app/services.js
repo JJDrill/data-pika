@@ -1,55 +1,33 @@
 angular.module('DataNexus')
-  .factory('LandingService', LandingService)
-  .factory('ConfigureService', ConfigureService)
-  .factory('SecurityService', SecurityService)
-  .factory('MonitorService', MonitorService)
-  .factory('MetricService', MetricService);;
+  .factory('MetricService', MetricService)
+  .factory('ProjectServices', ProjectServices);
 
-LandingService.$inject = ['$http']
 
-function LandingService($http) {
-  // console.log("Service: LandingService")
-
+ProjectServices.$inject = ['$http']
+function ProjectServices ($http) {
   return {
-    // getHomes: function() {
-    //   return $http.get('/api/homes')
-    //     .then((response) => response.data);
-    // },
-    // getHome: function (id) {
-    //   return this.getHomes()
-    //     .then((homes) => homes.find((home) => parseInt(home.id) === parseInt(id)))
-    // }
-  }
-}
 
-function ConfigureService($http) {
-  // console.log("Service: ConfigureService")
-
-  return {
     Get_Projects: function(){
       return $http.get('/api/projects').then(function(projects){
         return projects.data;
       })
+    },
+
+    Add_Project: function(){
+      return;
+    },
+
+    Update_Project: function(){
+      return;
+    },
+
+    Delete_Project: function(){
+      return;
     }
   }
 }
 
-function SecurityService($http) {
-  // console.log("Service: SecurityService")
-
-  return {
-  }
-}
-
-function MonitorService($http) {
-  // console.log("Service: MonitorService")
-
-  return {
-  }
-}
-
 MetricService.$inject = ['$stateParams']
-
 function MetricService ($stateParams) {
   // var socket = io()
   var socket = io('/Project_2');
