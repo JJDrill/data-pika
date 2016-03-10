@@ -26,7 +26,7 @@ db_Projects.Get_Projects().then(function(projects){
   for (var i = 0; i < projects.length; i++) {
     Start_Metrics_Channel(projects[i].Name);
   }
-}).then();
+})
 
 var Start_Metrics_Channel = function(project_name){
   var channelName = project_name.replace(' ', '_')
