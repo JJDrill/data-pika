@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
     table.string('Project_Name').references('Name').inTable('projects').onDelete('cascade');
     table.string('Type_ID').references('Name').inTable('store_types').onDelete('cascade');
     table.string('Name').notNullable();
+    table.integer('Depth');
   })
 };
 

@@ -7,6 +7,7 @@ function Projects(){
 module.exports = {
   Get_Projects: function(){
     return Projects()
+    .orderBy('Name')
   },
 
   Get_Project: function(project_name){

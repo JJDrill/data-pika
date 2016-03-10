@@ -10,19 +10,50 @@ module.exports = {
     return Data_Stores().insert({
         Project_Group_ID: project_group_id,
         Type_ID: store_type,
-        Name: data_store_name
+        Name: data_store_name,
+        Depth: 0
     })
   },
 
   Get_List: function(store_type){
-    return  Data_Stores()
-            .where('Type_ID', store_type)
+    return Data_Stores()
+    .where('Type_ID', store_type)
+  },
+
+  Get_Depth_Info: function(project_name){
+    return Data_Stores()
+    .select('Name', 'Type_ID', 'Depth')
+    .where('Project_Name', project_name)
+    .orderBy('Name')
+    .then(function(data){
+      console.log(data);
+      return {
+        "Project_Name": project_name,
+        "Metrics": data
+      }
+    })
+  },
+
+  Update_Depth: function(store_id, depth){
+    return Data_Stores()
+    .where('id', store_id)
+    .update({
+      Depth: depth
+    }).then()
+  },
+
+  Update_Name: function(store_id, name){
+    return Data_Stores()
+    .where('id', store_id)
+    .update({
+      Name: name
+    })
   },
 
   Delete_Data_Store: function(store_id){
-    return  Data_Stores()
-            .where('id', store_id)
-            .del()
+    return Data_Stores()
+    .where('id', store_id)
+    .del()
   }
 
 }

@@ -1,11 +1,14 @@
 var Express = require("express")
 var Socket = require("socket.io")
 var http = require("http")
-var unirest = require('unirest')
 var bodyParser = require('body-parser');
 var projects = require('./routes/projects');
 var data_stores = require('./routes/data_stores');
 var queues = require('./routes/queues');
+var metrics = require('./routes/metrics');
+
+var db_Projects = require('./db/tbl_projects')
+var db_Data_Stores = require('./db/tbl_data_stores')
 
 var app = Express()
 var server = http.Server(app)
@@ -17,23 +20,34 @@ app.use(Express.static("./client"))
 app.use('/api/projects', projects);
 app.use('/api/stores', data_stores);
 app.use('/api/queues', queues);
+app.use('/api/metrics', metrics);
 
-// io.on("connection", function (socket) {
-//   setInterval(function () {
-//     unirest.get('https://still-journey-81768.herokuapp.com/')  // This is the call to the static data
-//       .end(function (data) {
-//         db.get('houses').find().then(function (houses) {
-//           // var average = reduceFindAverage(houses);
-//           var average = findAverage(houses);
-//           socket.emit("bid", {
-//             body: data.body,
-//             average: average,
-//             time: new Date()
-//           })
-//         })
-//       })
-//   }, 3000)
-// })
+db_Projects.Get_Projects().then(function(projects){
+  for (var i = 0; i < projects.length; i++) {
+    Start_Metrics_Channel(projects[i].Name);
+  }
+}).then();
+
+var Start_Metrics_Channel = function(project_name){
+  var channelName = project_name.replace(' ', '_')
+  var nsp = io.of(channelName);
+
+  nsp.on("connection", function (socket){
+    console.log('Creating metric channel: ', channelName);
+
+    var intervalParam = setInterval(function () {
+      db_Data_Stores.Get_Depth_Info(project_name).then(function(data){
+        socket.emit("metrics", data)
+      })
+    }, 5000)
+
+    socket.on("disconnect", function(){
+      clearInterval(intervalParam);
+      console.log('Client disconnected...');
+    })
+  })
+
+}
 
 server.listen(8080, function () {
   console.log("listening on 8080")
