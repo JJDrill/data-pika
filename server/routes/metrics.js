@@ -13,8 +13,8 @@ var app = express()
 var server = http.Server(app)
 // var io = Socket(server)
 
-router.get('/', function(req, res){
-  db_Data_Stores.Get_Depth_Info("Project 1").then(function(data){
+router.get('/:project_name', function(req, res){
+  db_Metrics.Get_Project_Metrics(req.params.project_name).then(function(data){
     res.send(data)
   })
 })

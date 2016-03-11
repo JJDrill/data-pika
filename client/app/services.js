@@ -28,19 +28,37 @@ function ProjectServices ($http) {
 }
 
 MetricService.$inject = ['$stateParams']
+
 function MetricService ($stateParams) {
-  // var socket = io()
-  var socket = io('/Project_2');
+  var callbacks = []
+  var socket = io('/Project_1');
   // console.log($stateParams.id);
   socket.on('metrics', function (data) {
-    console.log(data);
-    console.log('disconnecting...');
-    socket.disconnect();
+    callbacks.forEach(function (callback) {
+      console.log("From service: ", data);
+      callback({"label" : "A" , "value" : -29.765957771107})
+    })
+    // console.log('disconnecting...');
+    // socket.disconnect();
     // socket.io.close();
+    // callback({amount: amount, time: data.time, average: average})
   })
   return {
     on: function (callback) {
-      // callbacks.push(callback)
+      callbacks.push(callback)
+      // return [{
+      //     key: "Cumulative Return",
+      //     values: [
+      //         { "label" : "A" , "value" : -29.765957771107 },
+      //         { "label" : "B" , "value" : 0 },
+      //         { "label" : "C" , "value" : 32.807804682612 },
+      //         { "label" : "D" , "value" : 196.45946739256 },
+      //         { "label" : "E" , "value" : 0.19434030906893 },
+      //         { "label" : "F" , "value" : -98.079782601442 },
+      //         { "label" : "G" , "value" : -13.925743130903 },
+      //         { "label" : "H" , "value" : -5.1387322875705 }
+      //         ]
+      //     }]
     }
   }
 }

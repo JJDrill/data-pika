@@ -7,8 +7,9 @@ var data_stores = require('./routes/data_stores');
 var queues = require('./routes/queues');
 var metrics = require('./routes/metrics');
 
-var db_Projects = require('./db/tbl_projects')
-var db_Data_Stores = require('./db/tbl_data_stores')
+var db_Projects = require('./db/tbl_projects');
+var db_Data_Stores = require('./db/tbl_data_stores');
+var db_Store_Metrics = require('./db/tbl_store_metrics');
 
 var app = Express()
 var server = http.Server(app)
@@ -36,10 +37,10 @@ var Start_Metrics_Channel = function(project_name){
     console.log('Creating metric channel: ', channelName);
 
     var intervalParam = setInterval(function () {
-      db_Data_Stores.Get_Depth_Info(project_name).then(function(data){
+      db_Store_Metrics.Get_Project_Metrics(project_name).then(function(data){
         socket.emit("metrics", data)
       })
-    }, 5000)
+    }, 2000)
 
     socket.on("disconnect", function(){
       clearInterval(intervalParam);

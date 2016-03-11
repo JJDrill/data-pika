@@ -19,28 +19,28 @@ module.exports = {
     .where('Type_ID', store_type)
   },
 
-  Get_Depth_Info: function(project_name){
-    return Data_Stores()
-    .select('Name', 'Type_ID', 'Depth')
-    .where('Project_Name', project_name)
-    .orderBy('Name')
-    .then(function(data){
-      console.log(data);
-      return {
-        "Project_Name": project_name,
-        "Date_Time": new Date(),
-        "Metrics": data
-      }
-    })
-  },
+  // Get_Depth_Info: function(project_name){
+  //   return Data_Stores()
+  //   .select('Name', 'Type_ID', 'Depth')
+  //   .where('Project_Name', project_name)
+  //   .orderBy('Name')
+  //   .then(function(data){
+  //     console.log(data);
+  //     return {
+  //       "Project_Name": project_name,
+  //       "Date_Time": new Date(),
+  //       "Metrics": data
+  //     }
+  //   })
+  // },
 
-  Update_Depth: function(store_id, depth){
-    return Data_Stores()
-    .where('id', store_id)
-    .update({
-      Depth: depth
-    }).then()
-  },
+  // Update_Depth: function(store_id, depth){
+  //   return Data_Stores()
+  //   .where('id', store_id)
+  //   .update({
+  //     Depth: depth
+  //   }).then()
+  // },
 
   Update_Name: function(store_id, name){
     return Data_Stores()

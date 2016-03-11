@@ -1,4 +1,4 @@
-angular.module('DataNexus', ['ui.router'])
+angular.module('DataNexus', ['ui.router', 'nvd3'])
   .config(function($stateProvider, $urlRouterProvider){
 
     $urlRouterProvider.otherwise('/');
