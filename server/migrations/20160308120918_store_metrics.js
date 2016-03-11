@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
     table.dateTime('Date_Time').notNullable();
     table.string('Activity_Name').notNullable();
     table.integer('Activity_Value').notNullable();
+    table.integer('Store_Depth').notNullable();
   })
 };
 

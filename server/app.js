@@ -46,7 +46,6 @@ var Start_Metrics_Channel = function(project_name){
       console.log('Client disconnected...');
     })
   })
-
 }
 
 server.listen(8080, function () {

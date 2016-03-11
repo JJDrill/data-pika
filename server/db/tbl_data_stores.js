@@ -10,8 +10,7 @@ module.exports = {
     return Data_Stores().insert({
         Project_Group_ID: project_group_id,
         Type_ID: store_type,
-        Name: data_store_name,
-        Depth: 0
+        Name: data_store_name
     })
   },
 
@@ -29,6 +28,7 @@ module.exports = {
       console.log(data);
       return {
         "Project_Name": project_name,
+        "Date_Time": new Date(),
         "Metrics": data
       }
     })

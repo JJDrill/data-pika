@@ -21,20 +21,17 @@ exports.seed = function(knex, Promise) {
     knex('data_stores').insert({
       Project_Name: "Project 1",
       Type_ID: 'Queue',
-      Name: 'Test Queue 1',
-      Depth: 0
+      Name: 'Test Queue 1'
     }),
     knex('data_stores').insert({
       Project_Name: "Project 1",
       Type_ID: 'Queue',
-      Name: 'Test Queue 2',
-      Depth: 0
+      Name: 'Test Queue 2'
     }),
     knex('data_stores').insert({
       Project_Name: "Project 2",
       Type_ID: 'Queue',
-      Name: 'Test Queue 3',
-      Depth: 0
+      Name: 'Test Queue 3'
     }),
   ]);
 })
