@@ -14,7 +14,7 @@ var server = http.Server(app)
 // var io = Socket(server)
 
 router.get('/:project_name', function(req, res){
-  db_Metrics.Get_Project_Metrics(req.params.project_name).then(function(data){
+  db_Metrics.Get_Project_Metrics(req.params.project_name, 3600).then(function(data){
     res.send(data)
   })
 })

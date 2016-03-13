@@ -30,7 +30,11 @@ module.exports = {
       }).then()
   },
 
-  Get_Project_Metrics: function(project_name){
+  Get_Project_Metrics: function(project_name, time_length_sec){
+    var now = new Date();
+    var hourago = new Date(now - (1000 * time_length_sec));
+    // var hourago = new Date(now - (1000*60*60));
+
     return knex.select('*')
       .from('data_stores')
       .where('Project_Name', project_name)
@@ -53,6 +57,7 @@ module.exports = {
             Metrics()
             .select('Date_Time', 'Activity_Name', 'Activity_Value', 'Store_Depth')
             .where('Data_Store_ID', dataStoreList[i].id)
+            .where('Date_Time', ">", hourago)
             .orderBy('Date_Time')
           );
         }

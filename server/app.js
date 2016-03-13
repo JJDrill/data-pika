@@ -37,10 +37,10 @@ var Start_Metrics_Channel = function(project_name){
     console.log('Creating metric channel: ', channelName);
 
     var intervalParam = setInterval(function () {
-      db_Store_Metrics.Get_Project_Metrics(project_name).then(function(data){
+      db_Store_Metrics.Get_Project_Metrics(project_name, 5).then(function(data){
         socket.emit("metrics", data)
       })
-    }, 2000)
+    }, 5000)
 
     socket.on("disconnect", function(){
       clearInterval(intervalParam);

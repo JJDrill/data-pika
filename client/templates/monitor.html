@@ -5,9 +5,10 @@
 </div>
 
 <div class="col-sm-9 col-md-10">
-  <!-- <div ng-app="DataNexus"> -->
+  <div ng-repeat="storage in storageList">
     <div ng-controller="MonitorController">
-        <nvd3 options="options" data="data"></nvd3>
+      <nvd3 options="options" data=storage></nvd3>
+        <!-- <nvd3 options="options" data="data"></nvd3> -->
     </div>
-  <!-- </div> -->
+  </div>
 </div>

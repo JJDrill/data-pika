@@ -4,6 +4,7 @@ angular.module('DataNexus')
 
 
 ProjectServices.$inject = ['$http']
+
 function ProjectServices ($http) {
   return {
 
@@ -32,11 +33,9 @@ MetricService.$inject = ['$stateParams']
 function MetricService ($stateParams) {
   var callbacks = []
   var socket = io('/Project_1');
-  // console.log($stateParams.id);
   socket.on('metrics', function (data) {
     callbacks.forEach(function (callback) {
-      console.log("From service: ", data);
-      callback({"label" : "A" , "value" : -29.765957771107})
+      callback(data)
     })
     // console.log('disconnecting...');
     // socket.disconnect();
@@ -46,19 +45,48 @@ function MetricService ($stateParams) {
   return {
     on: function (callback) {
       callbacks.push(callback)
-      // return [{
-      //     key: "Cumulative Return",
-      //     values: [
-      //         { "label" : "A" , "value" : -29.765957771107 },
-      //         { "label" : "B" , "value" : 0 },
-      //         { "label" : "C" , "value" : 32.807804682612 },
-      //         { "label" : "D" , "value" : 196.45946739256 },
-      //         { "label" : "E" , "value" : 0.19434030906893 },
-      //         { "label" : "F" , "value" : -98.079782601442 },
-      //         { "label" : "G" , "value" : -13.925743130903 },
-      //         { "label" : "H" , "value" : -5.1387322875705 }
-      //         ]
-      //     }]
     }
   }
+
+  // Get_Initial_Metric_Data: function(project_name){
+  //   return $http.get('/api/metrics/Project 1').then(function(data){
+  //     var graphSecondsTotal = 1800;
+  //     var graphGranularity = 5;
+  //     var graphArrayLength = graphSecondsTotal / graphGranularity;
+  //
+  //     rtnArray = []
+  //
+  //     for (var i = 0; i < graphArrayLength; i++) {
+  //       //create the bucket object
+  //       rtnArray.push({
+  //                       key: "",
+  //                       values: []
+  //                     })
+  //     }
+  //
+  //     // console.log(data.Data_Stores);
+  //     for (var prop in data.Data_Stores) {
+  //       // var tempObj =
+  //       // {
+  //       //   key: "",
+  //       //   values: []
+  //       // }
+  //       // skip loop if the property is from prototype
+  //       //  if(!data.Data_Stores.hasOwnProperty(data.Data_Stores)) continue;
+  //
+  //       tempObj.key = data.Data_Stores[prop].Name
+  //
+  //       for (var i = 0; i < data.Data_Stores[prop].Metrics.length; i++) {
+  //         tempObj.values.push([
+  //           new Date(data.Data_Stores[prop].Metrics[i].Date_Time),
+  //           data.Data_Stores[prop].Metrics[i].Store_Depth
+  //         ])
+  //       }
+  //       rtnArray.push(tempObj)
+  //     }
+  //
+  //     return projects.data;
+  //   })
+  // }
+
 }
