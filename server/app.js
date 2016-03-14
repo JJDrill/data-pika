@@ -35,22 +35,28 @@ app.use('/api/metrics', metrics);
   // var channelName = project_name.replace(' ', '_')
   // var nsp = io.of(channelName);
 
-  io.on("connection", function (socket){
-    var metricGranularitySec = 5
-    console.log('Creating metric channel...');
+io.on("connection", function (socket){
+  var metricGranularitySec = 5
+  console.log('Creating metric channel...');
 
-    var intervalParam = setInterval(function () {
-      db_Store_Metrics.Get_Project_Metrics(5).then(function(data){
-        // console.log(data);
-        socket.emit("metrics", data)
-      })
-    }, metricGranularitySec*1000)
-
-    socket.on("disconnect", function(){
-      clearInterval(intervalParam);
-      console.log('Client disconnected...');
+  var intervalParam = setInterval(function () {
+    db_Store_Metrics.Get_Project_Metrics(5).then(function(data){
+      // console.log(data);
+      socket.emit("metrics", data)
     })
+  }, metricGranularitySec*1000)
+
+  socket.on("disconnect", function(){
+    clearInterval(intervalParam);
+    console.log('Client disconnected...');
   })
+}, 5000)
+
+io.on("disconnect", function(){
+  clearInterval(intervalParam);
+  console.log('Client disconnected...');
+})
+// })
 // }
 
 server.listen(8080, function () {

@@ -32,51 +32,41 @@ module.exports = {
 
   Get_Project_Metrics: function(time_length_sec){
     var now = new Date();
-    var queryGranularity = new Date(now - (1000 * time_length_sec));
-    // var queryGranularity = new Date(now - (1000*60*60));
+    var timeGranularity = new Date(now - (1000 * time_length_sec));
+    // var timeGranularity = new Date(now - (1000*60*60));
 
     return knex.select('*')
       .from('data_stores')
       .then(function(dataStoreList){
-
-        // console.log(dataStoreList);
         var promises = []
+        // console.log("dataStoreList: ", dataStoreList);
+
+        var returnData =
+        {
+          Data_Stores: {}
+        }
 
         for (var i = 0; i < dataStoreList.length; i++) {
-          var projectData =
-          {
-            Project_Name: dataStoreList[i].Name,
-            Data_Stores: {}
-          }
-          projectData.Data_Stores[dataStoreList[i].id] = {}
-          projectData.Data_Stores[dataStoreList[i].id].Name = dataStoreList[i].Name
-          projectData.Data_Stores[dataStoreList[i].id].Type_ID = dataStoreList[i].Type_ID
+          returnData.Data_Stores[dataStoreList[i].id] = {}
+          returnData.Data_Stores[dataStoreList[i].id].Project_Name = dataStoreList[i].Project_Name
+          returnData.Data_Stores[dataStoreList[i].id].Name = dataStoreList[i].Name
+          returnData.Data_Stores[dataStoreList[i].id].Type_ID = dataStoreList[i].Type_ID
 
           promises.push(
             Metrics()
             .select('Date_Time', 'Activity_Name', 'Activity_Value', 'Store_Depth')
             .where('Data_Store_ID', dataStoreList[i].id)
-            .where('Date_Time', ">", queryGranularity)
+            .where('Date_Time', ">", timeGranularity)
             .orderBy('Date_Time')
           );
         }
-console.log(projectData);
 
         return Promise.all(promises).then(function(metrics){
-
           for (var i = 0; i < metrics.length; i++) {
-            // console.log(metrics[i]);
-            // projectData.Data_Stores[dataStoreList[i].id]['Metrics'] = metrics[i]
+            returnData.Data_Stores[dataStoreList[i].id]['Metrics'] = metrics[i]
           }
-
-          // console.log(projectData);
-          // console.log("--------------------------------");
-          // console.log(projectData.Data_Stores[1]['Metrics']);
-          // console.log(projectData.Data_Stores[2]['Metrics']);
-          return projectData;
+          return returnData;
         })
-
-        projectData.push(projectData)
       })
   }
 
