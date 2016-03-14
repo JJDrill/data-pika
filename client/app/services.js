@@ -32,7 +32,7 @@ MetricService.$inject = ['$stateParams']
 
 function MetricService ($stateParams) {
   var callbacks = []
-  var socket = io('/Project_1');
+  var socket = io('/');
   socket.on('metrics', function (data) {
     // console.log("Project Name in service: ", $stateParams.projectName);
     callbacks.forEach(function (callback) {

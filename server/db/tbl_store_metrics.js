@@ -30,26 +30,26 @@ module.exports = {
       }).then()
   },
 
-  Get_Project_Metrics: function(project_name, time_length_sec){
+  Get_Project_Metrics: function(time_length_sec){
     var now = new Date();
-    var hourago = new Date(now - (1000 * time_length_sec));
-    // var hourago = new Date(now - (1000*60*60));
+    var timeGranularity = new Date(now - (1000 * time_length_sec));
+    // var timeGranularity = new Date(now - (1000*60*60));
 
     return knex.select('*')
       .from('data_stores')
-      .where('Project_Name', project_name)
+      // .where('Project_Name', project_name)
       .then(function(dataStoreList){
-
-        var returnData =
-          {
-            Project_Name: project_name,
-            Data_Stores: {}
-          }
-
         var promises = []
+        // console.log("dataStoreList: ", dataStoreList);
+        var returnData =
+        {
+          // Project_Name: dataStoreList[i].Project_Name,
+          Data_Stores: {}
+        }
 
         for (var i = 0; i < dataStoreList.length; i++) {
           returnData.Data_Stores[dataStoreList[i].id] = {}
+          returnData.Data_Stores[dataStoreList[i].id].Project_Name = dataStoreList[i].Project_Name
           returnData.Data_Stores[dataStoreList[i].id].Name = dataStoreList[i].Name
           returnData.Data_Stores[dataStoreList[i].id].Type_ID = dataStoreList[i].Type_ID
 
@@ -57,7 +57,7 @@ module.exports = {
             Metrics()
             .select('Date_Time', 'Activity_Name', 'Activity_Value', 'Store_Depth')
             .where('Data_Store_ID', dataStoreList[i].id)
-            .where('Date_Time', ">", hourago)
+            .where('Date_Time', ">", timeGranularity)
             .orderBy('Date_Time')
           );
         }
@@ -71,6 +71,7 @@ module.exports = {
           // console.log("--------------------------------");
           // console.log(returnData.Data_Stores[1]['Metrics']);
           // console.log(returnData.Data_Stores[2]['Metrics']);
+          console.log(returnData);
           return returnData;
         })
       })

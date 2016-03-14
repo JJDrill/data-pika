@@ -23,31 +23,31 @@ app.use('/api/stores', data_stores);
 app.use('/api/queues', queues);
 app.use('/api/metrics', metrics);
 
-db_Projects.Get_Projects().then(function(projects){
-  for (var i = 0; i < projects.length; i++) {
-    Start_Metrics_Channel(projects[i].Name);
-  }
-})
+// db_Projects.Get_Projects().then(function(projects){
+//   for (var i = 0; i < projects.length; i++) {
+//     Start_Metrics_Channel(projects[i].Name);
+//   }
+// })
 
-var Start_Metrics_Channel = function(project_name){
-  var channelName = project_name.replace(' ', '_')
-  var nsp = io.of(channelName);
+// var Start_Metrics_Channel = function(project_name){
+  // var channelName = project_name.replace(' ', '_')
+  // var nsp = io.of(channelName);
 
-  nsp.on("connection", function (socket){
-    console.log('Creating metric channel: ', channelName);
+io.on("connection", function (socket){
+  console.log('Creating metric channel...');
 
-    var intervalParam = setInterval(function () {
-      db_Store_Metrics.Get_Project_Metrics(project_name, 5).then(function(data){
-        socket.emit("metrics", data)
-      })
-    }, 5000)
-
-    socket.on("disconnect", function(){
-      clearInterval(intervalParam);
-      console.log('Client disconnected...');
+  var intervalParam = setInterval(function () {
+    db_Store_Metrics.Get_Project_Metrics(5).then(function(data){
+      socket.emit("metrics", data)
     })
+  }, 5000)
+
+  socket.on("disconnect", function(){
+    clearInterval(intervalParam);
+    console.log('Client disconnected...');
   })
-}
+})
+// }
 
 server.listen(8080, function () {
   console.log("listening on 8080")

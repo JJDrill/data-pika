@@ -31,15 +31,11 @@ MonitorController.$inject = [ '$scope', '$stateParams', 'MetricService', 'Projec
 
 function MonitorController($scope, $stateParams, MetricService, ProjectServices) {
   $scope.storageList = []
-  $scope.selectedProject = "Project_1"
+  // $scope.selectedProject = "Project_1"
 
   MetricService.on(function (data) {
     var index = 0;
-    // var selected_project = $scope.selectedProject
 
-// $scope.$watch('selectedProject', function () {
-//   console.log("Project name in controller: ", $scope.selectedProject);
-// });
 // console.log(data.Data_Stores);
 
     for (var prop in data.Data_Stores) {
@@ -72,7 +68,7 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
                       }
 
         $scope.storageList.push([tempObj])
-        console.log($scope.storageList)
+        // console.log($scope.storageList)
       }
     }
 
