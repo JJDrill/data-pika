@@ -19,19 +19,4 @@ router.get('/:project_name', function(req, res){
   })
 })
 
-// io.on("connection", function (socket) {
-//   setInterval(function () {
-//     db_Projects.Get_Projects().then(function(projects){
-//       for (var i = 0; i < projects.length; i++) {
-//
-//         db_Data_Stores.Get_Depth_Info(projects[i].Name).then(function(data){
-//           console.log(data);
-//           // var nsp = io.of('/my-namespace');
-//           socket.emit("bid", data)
-//         })
-//       }
-//     })
-//   }, 5000)
-// })
-
 module.exports = router;

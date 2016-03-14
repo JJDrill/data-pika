@@ -16,7 +16,7 @@ function ConfigureController($scope, ProjectServices) {
 
   ProjectServices.Get_Projects().then(function(results){
     $scope.projects = results;
-    console.log($scope);
+    // console.log($scope);
   })
 }
 
@@ -31,23 +31,18 @@ MonitorController.$inject = [ '$scope', '$stateParams', 'MetricService', 'Projec
 
 function MonitorController($scope, $stateParams, MetricService, ProjectServices) {
   $scope.storageList = []
+  $scope.selectedProject = "Project_1"
 
   MetricService.on(function (data) {
-    // console.log(data);
-    // rtnArray = []
     var index = 0;
+    // var selected_project = $scope.selectedProject
 
-    // console.log(data.Data_Stores);
+// $scope.$watch('selectedProject', function () {
+//   console.log("Project name in controller: ", $scope.selectedProject);
+// });
+// console.log(data.Data_Stores);
+
     for (var prop in data.Data_Stores) {
-      // var tempObj =
-      // {
-      //   key: "",
-      //   values: []
-      // }
-      // skip loop if the property is from prototype
-      //  if(!data.Data_Stores.hasOwnProperty(data.Data_Stores)) continue;
-      // tempObj.key = data.Data_Stores[prop].Name
-
       var dataStoreKey = data.Data_Stores[prop].Name;
       var dataStoreMetrics = []
 
@@ -56,23 +51,8 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
           "x": new Date(data.Data_Stores[prop].Metrics[i].Date_Time),
           "y": data.Data_Stores[prop].Metrics[i].Store_Depth
         })
-        // dataStoreMetrics.push([
-        //   new Date(data.Data_Stores[prop].Metrics[i].Date_Time),
-        //   data.Data_Stores[prop].Metrics[i].Store_Depth
-        // ])
       }
 
-      // console.log("dataStoreMetrics:  ", dataStoreMetrics);
-
-      // for (var i = 0; i < data.Data_Stores[prop].Metrics.length; i++) {
-      //   tempObj.values.push([
-      //     new Date(data.Data_Stores[prop].Metrics[i].Date_Time),
-      //     data.Data_Stores[prop].Metrics[i].Store_Depth
-      //   ])
-      // }
-
-      // console.log("storageList: ", $scope.storageList);
-      // console.log(tempObj);
       // loop through to find this data item in our storage to  update it
       var foundIt = false;
 
@@ -87,23 +67,20 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
         var tempObj = {
                         key: dataStoreKey,
                         values: dataStoreMetrics,
-                        type: "area ",
+                        type: "area",
                         yAxis: 1
                       }
+
         $scope.storageList.push([tempObj])
+        console.log($scope.storageList)
       }
-      // $scope.storageList.push([tempObj])  //no!!!!!!!!
-      // rtnArray.push(tempObj)
-      // console.log($scope.data);
     }
-    // $scope.data = rtnArray
-    // console.log($scope.storageList);
+
     $scope.$apply()
   })
 
   ProjectServices.Get_Projects().then(function(results){
     $scope.projects = results;
-    // console.log($scope);
   })
 
 
@@ -155,7 +132,7 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
   $scope.options = {
       chart: {
           type: 'multiChart',
-          height: 300,
+          height: 400,
           margin : {
               top: 30,
               right: 60,
@@ -173,7 +150,7 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
           },
           yAxis1: {
               tickFormat: function(d){
-                return d;
+                return (d);
                 // return d3.format(',.1f')(d);
               }
           },
@@ -184,5 +161,6 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
           // }
       }
   };
+
 
 }

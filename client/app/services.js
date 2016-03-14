@@ -34,7 +34,9 @@ function MetricService ($stateParams) {
   var callbacks = []
   var socket = io('/Project_1');
   socket.on('metrics', function (data) {
+    // console.log("Project Name in service: ", $stateParams.projectName);
     callbacks.forEach(function (callback) {
+      // console.log(data);
       callback(data)
     })
     // console.log('disconnecting...');

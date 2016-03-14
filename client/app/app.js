@@ -3,13 +3,15 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
 
     $urlRouterProvider.otherwise('/');
 
-    $stateProvider.state('landing', {
+    $stateProvider
+
+    .state('landing', {
       templateUrl: 'templates/landing.html',
       controller: 'LandingController',
       url: '/'
     })
 
-    $stateProvider.state('configure', {
+    .state('configure', {
       views: {
           "": {
             templateUrl: 'templates/configure.html',
@@ -25,15 +27,27 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
       url: '/configure'
     })
 
-    $stateProvider.state('security', {
+    .state('security', {
       templateUrl: 'templates/security.html',
       controller: 'SecurityController',
       url: '/security'
     })
 
-    $stateProvider.state('monitor', {
-      templateUrl: 'templates/monitor.html',
-      controller: 'MonitorController',
-      url: '/monitor'
+    .state('monitor', {
+      url: '/monitor',
+      views: {
+        '': {
+          templateUrl: 'templates/monitor.html'
+        },
+        "monitorProjects@monitor": {
+          templateUrl: "templates/monitorProjects.html",
+          controller: 'MonitorController'
+        },
+        "monitorGraphs@monitor": {
+          templateUrl: "templates/monitorGraphs.html",
+          controller: 'MonitorController'
+        }
+      }
     })
+
   });
