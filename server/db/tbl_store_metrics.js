@@ -30,49 +30,53 @@ module.exports = {
       }).then()
   },
 
-  Get_Project_Metrics: function(project_name, time_length_sec){
+  Get_Project_Metrics: function(time_length_sec){
     var now = new Date();
-    var hourago = new Date(now - (1000 * time_length_sec));
-    // var hourago = new Date(now - (1000*60*60));
+    var queryGranularity = new Date(now - (1000 * time_length_sec));
+    // var queryGranularity = new Date(now - (1000*60*60));
 
     return knex.select('*')
       .from('data_stores')
-      .where('Project_Name', project_name)
       .then(function(dataStoreList){
 
-        var returnData =
-          {
-            Project_Name: project_name,
-            Data_Stores: {}
-          }
-
+        // console.log(dataStoreList);
         var promises = []
 
         for (var i = 0; i < dataStoreList.length; i++) {
-          returnData.Data_Stores[dataStoreList[i].id] = {}
-          returnData.Data_Stores[dataStoreList[i].id].Name = dataStoreList[i].Name
-          returnData.Data_Stores[dataStoreList[i].id].Type_ID = dataStoreList[i].Type_ID
+          var projectData =
+          {
+            Project_Name: dataStoreList[i].Name,
+            Data_Stores: {}
+          }
+          projectData.Data_Stores[dataStoreList[i].id] = {}
+          projectData.Data_Stores[dataStoreList[i].id].Name = dataStoreList[i].Name
+          projectData.Data_Stores[dataStoreList[i].id].Type_ID = dataStoreList[i].Type_ID
 
           promises.push(
             Metrics()
             .select('Date_Time', 'Activity_Name', 'Activity_Value', 'Store_Depth')
             .where('Data_Store_ID', dataStoreList[i].id)
-            .where('Date_Time', ">", hourago)
+            .where('Date_Time', ">", queryGranularity)
             .orderBy('Date_Time')
           );
         }
+console.log(projectData);
 
         return Promise.all(promises).then(function(metrics){
+
           for (var i = 0; i < metrics.length; i++) {
-            returnData.Data_Stores[dataStoreList[i].id]['Metrics'] = metrics[i]
+            // console.log(metrics[i]);
+            // projectData.Data_Stores[dataStoreList[i].id]['Metrics'] = metrics[i]
           }
 
-          // console.log(returnData);
+          // console.log(projectData);
           // console.log("--------------------------------");
-          // console.log(returnData.Data_Stores[1]['Metrics']);
-          // console.log(returnData.Data_Stores[2]['Metrics']);
-          return returnData;
+          // console.log(projectData.Data_Stores[1]['Metrics']);
+          // console.log(projectData.Data_Stores[2]['Metrics']);
+          return projectData;
         })
+
+        projectData.push(projectData)
       })
   }
 

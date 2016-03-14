@@ -28,27 +28,66 @@ function ProjectServices ($http) {
   }
 }
 
+// MetricService2.$inject = []
+
+// function MetricService2 () {
+//   var sockets = {}
+//
+//   function Get_Metrics(project_name){
+//     if (project_name) {
+//
+//     }
+//     var socket = io('/' + project_name)
+//     return socket
+//   }
+//
+//   return {Get_Metrics}
+// }
+
 MetricService.$inject = ['$stateParams']
 
 function MetricService ($stateParams) {
   var callbacks = []
-  var socket = io('/Project_1');
+  var socket = io('/');
+
   socket.on('metrics', function (data) {
-    // console.log("Project Name in service: ", $stateParams.projectName);
-    callbacks.forEach(function (callback) {
-      // console.log(data);
-      callback(data)
-    })
+    // callbacks.forEach(function (callback) {
+      console.log(data);
+      // callback(data)
+      return data;
+    // })
     // console.log('disconnecting...');
     // socket.disconnect();
     // socket.io.close();
     // callback({amount: amount, time: data.time, average: average})
   })
-  return {
-    on: function (callback) {
-      callbacks.push(callback)
-    }
-  }
+  // return {
+  //   on: function (callback) {
+  //     callbacks.push(callback)
+  //   }
+  // }
+
+// MetricService.$inject = ['$stateParams']
+//
+// function MetricService ($stateParams) {
+//   var callbacks = []
+//   var socket = io('/Project_1');
+//
+//   socket.on('metrics', function (data) {
+//     callbacks.forEach(function (callback) {
+//       // console.log(data);
+//       callback(data)
+//     })
+//     // console.log('disconnecting...');
+//     // socket.disconnect();
+//     // socket.io.close();
+//     // callback({amount: amount, time: data.time, average: average})
+//   })
+//   return {
+//     on: function (callback) {
+//       callbacks.push(callback)
+//     }
+//   }
 
   // Get_Initial_Metric_Data: function(project_name){
   //   return $http.get('/api/metrics/Project 1').then(function(data){

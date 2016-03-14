@@ -31,7 +31,8 @@ MonitorController.$inject = [ '$scope', '$stateParams', 'MetricService', 'Projec
 
 function MonitorController($scope, $stateParams, MetricService, ProjectServices) {
   $scope.storageList = []
-  $scope.selectedProject = "Project_1"
+  // $scope.selectedProject = "Project_1"
+  console.log("Controller Selected Project: ", $scope.selectedProject);
 
   MetricService.on(function (data) {
     var index = 0;
