@@ -26,16 +26,62 @@ function SecurityController($scope) {
 }
 
 
-
 MonitorController.$inject = [ '$scope', '$stateParams', 'MetricService', 'ProjectServices'];
 
 function MonitorController($scope, $stateParams, MetricService, ProjectServices) {
-  $scope.storageList = []
+  $scope.storageList = {}
+
+  ProjectServices.Get_Project_Datastores().then(function(projectlist){
+
+    for (var i = 0; i < projectlist.length; i++) {
+
+      if ($scope.storageList[projectlist[i].Project_Name] === undefined) {
+        $scope.storageList[projectlist[i].Project_Name] = []
+      }
+
+      var tempObj = {
+                      key: [projectlist[i].Name],
+                      values: [],
+                      type: "area",
+                      yAxis: 1
+                    }
+
+      $scope.storageList[projectlist[i].Project_Name].push([tempObj])
+
+      // $scope.storageList[projectlist[i].Project_Name][projectlist[i].Name] =
+      //   {
+      //     Type: projectlist[i].Type_ID,
+      //     Metrics: []
+      //   }
+    }
+    // console.log("storageList: ", $scope.storageList);
+  })
+
+  $scope.setSelectedProject = function(project){
+    console.log('Setting project: ', project);
+    $scope.selectedProject = project;
+    // $scope.$on("REFRESH", "monitorGraphs@monitor");
+  }
+
+  $scope.getSelectedProjectMetrics = function(){
+    // if ($scope.selectedProject === undefined) {
+    //   console.log('setting default project....');
+    //   $scope.selectedProject = 'Project 1';
+    // }
+    // console.log('Selecting project: ', $stateParams.project);
+    return $scope.storageList[$stateParams.project];
+    // return $scope.storageList[$scope.selectedProject];
+  };
+
 
   MetricService.on(function (data) {
     var index = 0;
 
+    // console.log("stateParams: ", $stateParams.project);
+    // console.log("MetricService Data: ", data);
+
     for (var prop in data.Data_Stores) {
+      var dataStoreProject = data.Data_Stores[prop].Project_Name;
       var dataStoreKey = data.Data_Stores[prop].Name;
       var dataStoreMetrics = []
 
@@ -47,26 +93,34 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
       }
 
       // loop through to find this data item in our storage to  update it
-      var foundIt = false;
+      // var foundIt = false;
 
-      for (var i = 0; i < $scope.storageList.length; i++) {
-        if ($scope.storageList[i][0].key === dataStoreKey) {
-          $scope.storageList[i][0].values = $scope.storageList[i][0].values.concat(dataStoreMetrics)
-          foundIt = true
+      for (var i = 0; i < $scope.storageList[dataStoreProject].length; i++) {
+
+// console.log($scope.storageList[dataStoreProject]);
+// console.log($scope.storageList[dataStoreProject][i][0].key + " / " + dataStoreKey);
+// console.log($scope.storageList[dataStoreProject][i][0].key == dataStoreKey);
+
+        if ($scope.storageList[dataStoreProject][i][0].key == dataStoreKey) {
+          $scope.storageList[dataStoreProject][i][0].values = $scope.storageList[dataStoreProject][i][0].values.concat(dataStoreMetrics)
+
+          // console.log("Found Updates: ", $scope.storageList[dataStoreProject]);
+          // foundIt = true
         }
       }
 
-      if (!foundIt) {
-        var tempObj = {
-                        key: dataStoreKey,
-                        values: dataStoreMetrics,
-                        type: "area",
-                        yAxis: 1
-                      }
-
-        $scope.storageList.push([tempObj])
-      }
+      // if (!foundIt) {
+      //   var tempObj = {
+      //                   key: dataStoreKey,
+      //                   values: dataStoreMetrics,
+      //                   type: "area",
+      //                   yAxis: 1
+      //                 }
+      //
+      //   $scope.storageList.push([tempObj])
+      // }
     }
+    // console.log("storageList: ", $scope.storageList);
     $scope.$apply()
   });
 
@@ -123,7 +177,7 @@ function MonitorController($scope, $stateParams, MetricService, ProjectServices)
   $scope.options = {
       chart: {
           type: 'multiChart',
-          height: 400,
+          height: 300,
           margin : {
               top: 30,
               right: 60,

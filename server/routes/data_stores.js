@@ -13,6 +13,12 @@ router.post('/', function(req, res){
   })
 })
 
+router.get('/', function(req, res){
+  db_Data_Stores.Get_List().then(function(result){
+    res.send(result);
+  })
+})
+
 router.get('/:type', function(req, res){
   db_Data_Stores.Get_List(req.params.type).then(function(result){
     res.send(result);

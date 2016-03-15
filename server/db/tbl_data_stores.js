@@ -15,8 +15,12 @@ module.exports = {
   },
 
   Get_List: function(store_type){
-    return Data_Stores()
-    .where('Type_ID', store_type)
+    if (store_type === undefined) {
+      return Data_Stores()
+    } else {      
+      return Data_Stores()
+      .where('Type_ID', store_type)
+    }
   },
 
   // Get_Depth_Info: function(project_name){

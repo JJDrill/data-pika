@@ -34,10 +34,11 @@ angular.module('DataNexus', ['ui.router', 'nvd3'])
     })
 
     .state('monitor', {
-      url: '/monitor',
+      url: '/monitor/:project',
       views: {
         '': {
           templateUrl: 'templates/monitor.html'
+          // controller: 'MonitorController'
         },
         "monitorProjects@monitor": {
           templateUrl: "templates/monitorProjects.html",

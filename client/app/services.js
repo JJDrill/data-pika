@@ -14,17 +14,12 @@ function ProjectServices ($http) {
       })
     },
 
-    Add_Project: function(){
-      return;
-    },
-
-    Update_Project: function(){
-      return;
-    },
-
-    Delete_Project: function(){
-      return;
+    Get_Project_Datastores: function(){
+      return $http.get('/api/stores').then(function(datastores){
+        return datastores.data;
+      })
     }
+
   }
 }
 
